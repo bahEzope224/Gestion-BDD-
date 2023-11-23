@@ -4,23 +4,17 @@
     <title>Ajouter un Auteur</title>
     <link rel="icon" href="anime-and-manga-svgrepo-com.svg" type="image/svg+xml">
     <style>
-         /* form{
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            flex-direction: column;
-            align-items: flex-start;
-        } */
-        body{
-    background-color: burlywood;
+
+body{
+  background-color: burlywood;
 }
    
-        h2{
-            text-align: center;
-            padding-top: 150px;
-        }
+h2{
+  text-align: center;
+  padding-top: 150px;
+}
 
-        .login-box {
+.login-box {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -68,53 +62,29 @@
   font-size: 12px;
 }
 
-.login-box form a {
-  position: relative;
-  display: inline-block;
-  padding: 10px 20px;
-  color: #ffffff;
-  font-size: 16px;
-  text-decoration: none;
-  text-transform: uppercase;
-  overflow: hidden;
-  transition: .5s;
-  margin-top: 40px;
-  letter-spacing: 4px
-}
+.tkt {
+        --color: #560bad;
+        font-family: inherit;
+        display: inline-block;
+        width: 8em;
+        height: 2.6em;
+        line-height: 2.5em;
+        margin: 20px;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid var(--color);
+        transition: color .5s;
+        z-index: 1;
+        font-size: 17px;
+        border-radius: 6px;
+        font-weight: 500;
+        color: var(--color);
+    }
 
-.login-box a:hover {
-  background: #03f40f;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #03f40f,
-              0 0 25px #03f40f,
-              0 0 50px #03f40f,
-              0 0 100px #03f40f;
-}
-
-.login-box a span {
-  position: absolute;
-  display: block;
-}
-
-@keyframes btn-anim1 {
-  0% {
-    left: -100%;
-  }
-
-  50%,100% {
-    left: 100%;
-  }
-}
-
-.login-box a span:nth-child(1) {
-  bottom: 2px;
-  left: -100%;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #03f40f);
-  animation: btn-anim1 2s linear infinite;
-}
+    .tkt:hover {
+        color: purple;
+        background-color: Aqua;
+    }
     </style>
 </head>
 <body>
@@ -146,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 echo "Une erreur s'est produite lors de l'ajout de l'auteur.";
             }
-        } else {
+        } else { 
             echo "<p>Cet auteur existe déjà.</p>";
         }
 
@@ -174,9 +144,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <input type="text" name="prenom_auteur" required="">
       <label>Prénom de l'auteur:</label>
     </div><center>
-    <a href="#">
+    
     <input class="tkt" type="submit" value="Ajouter">
        <span></span>
-    </a></center>
+    </center>
   </form>
 </div>
+  
+</body>
+</html>
