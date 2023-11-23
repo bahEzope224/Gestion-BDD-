@@ -1,162 +1,133 @@
+
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Supprimer un livre</title>
-    <link rel="icon" href="anime-and-manga-svgrepo-com.svg" type="image/svg+xml">
-    <style>
-            h2{
-            text-align: center;
-            padding-top: 150px;
-        }
-body{
-    background-color: burlywood;
-}
-        .login-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 400px;
-  padding: 40px;
-  transform: translate(-50%, -50%);
-  background: rgba(24, 20, 20, 0.987);
-  box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0,.6);
-  border-radius: 10px;
-}
+  <title>suppression</title>
+  <link rel="icon" href="anime-and-manga-svgrepo-com.svg" type="image/svg+xml">
+  <style>
+h2 {
+      text-align: center;
+      padding-top: 150px;
+    }
 
-.login-box .user-box {
-  position: relative;
-}
+    body {
+      background-color: burlywood;
+    }
 
-.login-box .user-box input {
-  width: 100%;
-  padding: 10px 0;
-  font-size: 16px;
-  color: #fff;
-  margin-bottom: 30px;
-  border: none;
-  border-bottom: 1px solid #fff;
-  outline: none;
-  background: transparent;
-}
+    .login-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 400px;
+      padding: 40px;
+      transform: translate(-50%, -50%);
+      background: rgba(24, 20, 20, 0.987);
+      box-sizing: border-box;
+      box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+      border-radius: 10px;
+    }
 
-.login-box .user-box label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 10px 0;
-  font-size: 16px;
-  color: #fff;
-  pointer-events: none;
-  transition: .5s;
-}
+    .login-box .user-box {
+      position: relative;
+    }
 
-.login-box .user-box input:focus ~ label,
-.login-box .user-box input:valid ~ label {
-  top: -20px;
-  left: 0;
-  color: #bdb8b8;
-  font-size: 12px;
-}
+    .login-box .user-box input {
+      width: 100%;
+      padding: 10px 0;
+      font-size: 16px;
+      color: #fff;
+      margin-bottom: 30px;
+      border: none;
+      border-bottom: 1px solid #fff;
+      outline: none;
+      background: transparent;
+    }
 
-.login-box form a {
-  position: relative;
-  display: inline-block;
-  padding: 10px 20px;
-  color: #ffffff;
-  font-size: 16px;
-  text-decoration: none;
-  text-transform: uppercase;
-  overflow: hidden;
-  transition: .5s;
-  margin-top: 40px;
-  letter-spacing: 4px
-}
+    .login-box .user-box label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 10px 0;
+      font-size: 16px;
+      color: #fff;
+      pointer-events: none;
+      transition: .5s;
+    }
 
-.login-box a:hover {
-  background: #03f40f;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #03f40f,
-              0 0 25px #03f40f,
-              0 0 50px #03f40f,
-              0 0 100px #03f40f;
-}
+    .login-box .user-box input:focus~label,
+    .login-box .user-box input:valid~label {
+      top: -20px;
+      left: 0;
+      color: #bdb8b8;
+      font-size: 12px;
+    }
 
-.login-box a span {
-  position: absolute;
-  display: block;
-}
+    .tkt {
+      --color: #560bad;
+      font-family: inherit;
+      display: inline-block;
+      width: 8em;
+      height: 2.6em;
+      line-height: 2.5em;
+      margin: 20px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid var(--color);
+      transition: color .5s;
+      z-index: 1;
+      font-size: 17px;
+      border-radius: 6px;
+      font-weight: 500;
+      color: var(--color);
+    }
 
-@keyframes btn-anim1 {
-  0% {
-    left: -100%;
-  }
-
-  50%,100% {
-    left: 100%;
-  }
-}
-
-.login-box a span:nth-child(1) {
-  bottom: 2px;
-  left: -100%;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #03f40f);
-  animation: btn-anim1 2s linear infinite;
-}
-</style>
+    .tkt:hover {
+      color: purple;
+      background-color: Aqua;
+    }
+  </style>
 </head>
+
 <body>
 
-<h2>Supprimer un livre</h2>
+  <?php
+  require_once('database.php');
 
-<?php
-error_reporting(E_ALL); ini_set("display_errors", 1); 
-require_once('database.php');
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_livres = $_POST["id_livres"];
+  if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id_livres"])) {
+    $id_livres = $_GET["id_livres"];
 
     try {
-        // Requête SQL pour supprimer l'auteur
-        $requete = "DELETE FROM livres WHERE id_livres = $id_livres";
-        // Exécution de la requête SQL
-        $resultat = $connexion->exec($requete);
+      // Requête SQL pour récupérer les détails du manga
+      $requete = "SELECT nom_livres, nom_auteur, prenom_auteur FROM livres INNER JOIN auteur ON livres.id_auteur = auteur.id_auteur WHERE id_livres = :id_livres";
+      // Préparation de la requête
+      $stmt = $connexion->prepare($requete);
+      // Liaison des paramètres
+      $stmt->bindParam(':id_livres', $id_livres, PDO::PARAM_INT);
+      // Exécution de la requête préparée
+      $stmt->execute();
 
-        if ($resultat !== false) {
-            echo "Le livre a été supprimé avec succès.";
-        } else {
-            echo "Une erreur s'est produite lors de la suppression du livre";
-        }
+      // Récupération des résultats
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      if ($row) {
+        echo "<h2>Voulez-vous vraiment supprimer le manga \"" . $row['nom_livres'] . "\" de l'auteur \"" . $row['nom_auteur'] . " " . $row['prenom_auteur'] . "\" ?</h2>";
+        echo "<form method='post'action='confirmer-suppression-manga.php'>
+                    <input type='hidden' name='id_livres' value='" . $id_livres . "'>
+                    <input type='checkbox' name='confirmation' required> Oui, je suis sûr de vouloir supprimer ce manga<br>
+                    <input type='submit' value='Confirmer la suppression'>
+                  </form>";
+      } else {
+        echo "Manga non trouvé.";
+      }
     } catch (PDOException $erreur) {
-        die("Erreur lors de la suppression de livre : " . $erreur->getMessage());
+      die("Erreur lors de la récupération des données : " . $erreur->getMessage());
     }
-} else {
-    // Si la requête n'est pas de type POST, cela signifie que l'utilisateur a accédé à cette page sans passer par le formulaire.
-    // Vous pouvez ajouter ici un message d'erreur ou rediriger l'utilisateur vers la page appropriée.
-}
-?>
-
-<!-- <form method="post" action=""> 
-    ID de livre à supprimer: <input type="text" name="id_livre"><br>
-    <input type="submit" value="Supprimer">
-</form> -->
-
-<div class="login-box">
- 
-  <form  method="post" action="">
-    <div class="user-box">
-      <input type="text" name="id_manga" required="">
-      <label>ID du livre a supprimer:</label>
-    </div>
-   <center>
-    <a href="#">
-    <input class="tkt" type="submit" value="Ajouter">
-       <span></span>
-    </a></center>
-  </form>
+  } else {
+    echo "Paramètre manquant.";
+  }
+  ?>
 
 </body>
+
 </html>
